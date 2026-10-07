@@ -1,0 +1,13 @@
+/* Position the complete copy block proportionally within the Hero. */
+.hero .hero-message{top:50%;transform:translateY(-50%);margin-top:0}
+.hero .hero-message h1{font-size:clamp(32px,3.7vw,64px);line-height:1.08}
+.hero .hero-message p{font-size:clamp(16px,1.25vw,18px);line-height:1.6}
+@media(min-width:701px) and (max-width:1100px){
+ .hero .hero-message{top:52%;left:51%;right:clamp(24px,4vw,44px)}
+ .hero .hero-message h1{font-size:clamp(30px,3.7vw,42px)}
+}
+@media(max-width:700px){
+ .hero .hero-message{position:absolute;top:52%;left:24px;right:24px;margin:0;transform:translateY(-50%)}
+ .hero .hero-message h1{font-size:clamp(28px,7.4vw,42px)}
+ .hero .hero-message p{font-size:16px}
+}

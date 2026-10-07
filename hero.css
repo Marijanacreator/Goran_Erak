@@ -1,0 +1,375 @@
+/* Hero uses the supplied demo's feature / toolbar / photograph / caption structure. */
+.hero{--surface-sunk:#e2e2e0;--ink:#141412;--ink-faint:rgba(20,20,18,.64);--rule-strong:rgba(20,20,18,.3);--accent:#f36b32;background:#f7f7f6;color:var(--ink);display:block;min-height:0}
+.masthead{background:#f7f7f6}
+.masthead .navbar{background:#f7f7f6}
+.hero.feature {
+    width: min(100%, 1120px);
+    margin: 0 auto;
+    padding: clamp(0.9rem, 2vw, 1.25rem) clamp(1rem, 3vw, 2rem) clamp(2rem, 6vw, 4rem);
+}
+
+.hero .feature-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2.25rem;
+    margin-bottom: clamp(0.75rem, 1.6vw, 1rem);
+}
+
+.hero .prompt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink-faint);
+    font-size: 0.8125rem;
+    line-height: 1.35;
+}
+
+.hero .prompt strong {
+    color: var(--ink);
+    font-weight: 500;
+}
+
+.hero .prompt-dot {
+    flex: 0 0 auto;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.hero .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45rem 0.9rem;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border: 1px solid var(--rule-strong);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease-out-quart);
+}
+
+.hero .btn:hover {
+    background: var(--surface-sunk);
+}
+
+.hero .btn:focus-visible {
+    background: var(--surface-sunk);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   PHOTOGRAPH
+   ============================================ */
+.hero .photo {
+    margin: 0;
+}
+
+.hero .photo--second {
+    margin-top: clamp(2rem, 6vw, 4rem);
+}
+
+/* CONTRACT: the wrapper must clip. The polygon reveals the wrapper, and the
+   inner image starts scaled up, so anything that overflows would show
+   around the aperture. The neutral plate shows until the image has loaded. */
+.hero .photo-media {
+    position: relative;
+    width: 100%;
+    height: min(62svh, 620px);
+    min-height: 260px;
+    overflow: hidden;
+    background: var(--surface-sunk);
+    isolation: isolate;
+}
+
+/* CONTRACT: the closed aperture, one per direction, gated under .has-js so
+   the photograph is visible without JavaScript. The six points match the
+   open polygon in script.js point for point, which keeps the interpolation
+   stable. */
+.has-js [data-clip-reveal] {
+    clip-path: polygon(0% 100%, 42% 100%, 50% 94%, 58% 100%, 100% 100%, 0% 100%);
+}
+
+.has-js [data-clip-reveal][data-reveal-direction='down'] {
+    clip-path: polygon(0% 0%, 42% 0%, 50% 6%, 58% 0%, 100% 0%, 0% 0%);
+}
+
+.has-js [data-clip-reveal][data-reveal-direction='left'] {
+    clip-path: polygon(100% 0%, 100% 42%, 94% 50%, 100% 58%, 100% 100%, 100% 0%);
+}
+
+.has-js [data-clip-reveal][data-reveal-direction='right'] {
+    clip-path: polygon(0% 0%, 0% 42%, 6% 50%, 0% 58%, 0% 100%, 0% 0%);
+}
+
+.hero .photo-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    transform-origin: center 55%;
+}
+
+/* CONTRACT: the Ken Burns start state. script.js tweens scale from 1.14 to
+   1; without this the first frame would paint at 1 and jump. */
+.has-js [data-clip-reveal] img {
+    transform: scale(1.14);
+    will-change: transform;
+}
+
+/* ============================================
+   CAPTION
+   ============================================ */
+.hero .photo-caption {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.9fr) minmax(14rem, 2.4fr) minmax(9rem, 1fr);
+    gap: 0.35rem clamp(1rem, 3vw, 2.5rem);
+    align-items: start;
+    padding-top: 0.9rem;
+}
+
+/* The accent mark: a short bar that draws in ahead of the caption copy. */
+.hero .caption-mark {
+    grid-column: 1 / -1;
+    display: block;
+    width: 2.5rem;
+    height: 3px;
+    margin-bottom: 0.35rem;
+    background: var(--accent);
+}
+
+.has-js .caption-mark {
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+/* CONTRACT: each caption line rises through an overflow mask, so the mask
+   must clip and the inner span must be a block. */
+.hero .caption-mask {
+    display: block;
+    overflow: hidden;
+}
+
+.hero .caption-mask > span {
+    display: block;
+}
+
+.has-js .caption-mask > span {
+    opacity: 0;
+    transform: translateY(115%);
+}
+
+.hero .caption-place,
+.hero .caption-note {
+    color: var(--ink-faint);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    padding-top: 0.2rem;
+}
+
+.hero .caption-title {
+    font-size: clamp(1.05rem, 1.9vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+.hero .caption-note {
+    justify-self: end;
+    text-align: right;
+}
+
+/* ============================================
+   BODY COPY
+   ============================================ */
+.passage {
+    width: min(100%, 40rem);
+    margin: clamp(2rem, 6vw, 4rem) auto 0;
+    color: var(--ink-dim);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 700px) {
+    .feature-bar {
+        align-items: flex-start;
+    }
+
+    .prompt span:last-child {
+        display: none;
+    }
+
+    .photo-media {
+        height: auto;
+        aspect-ratio: 4 / 5;
+        max-height: 60svh;
+    }
+
+    .photo-caption {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+
+    .caption-title {
+        font-size: clamp(1.1rem, 5.5vw, 1.4rem);
+    }
+
+    .caption-note {
+        justify-self: start;
+        text-align: left;
+    }
+}
+
+
+.hero .btn{min-height:44px;flex-shrink:0}
+.hero .photo-caption{margin:0;text-transform:none;letter-spacing:normal}
+.hero h1.caption-title{margin:0;font-size:clamp(1.05rem,1.9vw,1.5rem);font-weight:600;line-height:1.15;letter-spacing:-.02em}
+.hero .photo-media img{height:100%}
+.hero .caption-mask>span{display:block}
+@media(max-width:700px){.hero h1.caption-title{font-size:clamp(1.1rem,5.5vw,1.4rem)}.hero .prompt{font-size:11px}.hero .photo-media{height:auto;aspect-ratio:4/5;max-height:60svh}}
+@media(max-width:700px){
+ .hero .feature-bar{align-items:flex-start;gap:12px}
+ .hero .prompt{flex-wrap:wrap;min-width:0}
+ .hero .prompt span:last-child{display:none}
+ .hero .photo-caption{grid-template-columns:minmax(0,1fr);gap:.25rem}
+ .hero .caption-note{justify-self:start;text-align:left}
+}
+.hero .photo{position:relative}
+.hero .hero-message{position:absolute;left:60%;right:5%;top:12%;z-index:1;color:var(--ink)}
+.hero .hero-message h2{font-size:clamp(22px,2.2vw,30px);font-weight:600;line-height:1.2;letter-spacing:-.7px;margin:0}
+.hero .hero-message p{font-size:13px;line-height:1.65;max-width:310px;margin-top:18px}
+@media(max-width:900px){
+  .hero .hero-message{left:58%;right:4%;top:8%}
+  .hero .hero-message h2{font-size:22px}
+  .hero .hero-message p{font-size:12px;margin-top:14px}
+}
+@media(max-width:700px){
+  .hero .hero-message{position:static;margin:22px 0 24px;max-width:380px}
+  .hero .hero-message h2{font-size:clamp(22px,5.6vw,28px)}
+  .hero .hero-message p{font-size:13px;max-width:340px}
+}
+/* Production Hero refinement; typography remains scoped to Hero/navigation. */
+@font-face{font-family:Manrope;src:url('./assets/manrope-400.ttf') format('truetype');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:Manrope;src:url('./assets/manrope-500.ttf') format('truetype');font-style:normal;font-weight:500;font-display:swap}
+@font-face{font-family:Manrope;src:url('./assets/manrope-600.ttf') format('truetype');font-style:normal;font-weight:600;font-display:swap}
+.hero,.masthead .navbar,.masthead .menu-toggle{font-family:Manrope,Arial,sans-serif}
+.masthead .navbar a{font-weight:500}
+.hero .prompt{font-weight:400;font-size:13px;gap:12px}
+.hero .prompt strong{font-weight:500}
+.hero .prompt-dot{display:none}
+.hero .hero-message{left:51%;right:3.5%;top:13%}
+.hero .hero-message h1{font-family:inherit;font-size:clamp(32px,3vw,42px);font-weight:600;line-height:1.08;letter-spacing:-1.5px;margin:0}
+.hero .hero-message p{font-size:17px;line-height:1.6;max-width:400px;margin-top:24px;font-weight:400}
+@media(min-width:701px) and (max-width:1000px){
+ .hero .hero-message h1{font-size:clamp(26px,3.45vw,34px);letter-spacing:-1px}
+ .hero .hero-message p{font-size:15px;margin-top:18px}
+}
+@media(max-width:700px){
+ .hero .hero-message{position:static;margin:24px 0 0;max-width:none}
+ .hero .hero-message h1{font-size:clamp(23px,5.9vw,38px);line-height:1.1;letter-spacing:-.8px}
+ .hero .hero-message p{font-size:16px;line-height:1.6;max-width:440px;margin-top:18px}
+ .hero .prompt{font-size:12px;display:block}
+ .hero .prompt span:last-child{display:block;margin-top:4px}
+}
+/* Floating brand navigation and conversion hierarchy. */
+.masthead{margin:18px var(--gutter) 12px;padding:12px 22px;min-height:88px;background:#fff;border:0;border-radius:24px;box-shadow:0 5px 24px rgb(32 38 34 / .035)}
+.masthead .navbar{background:#fff}
+.masthead .nav-cta{background:var(--accent);color:var(--ink);border:0;border-radius:10px;padding:0 20px;min-height:50px;gap:24px;font-weight:600}
+.hero .hero-message{top:7%;left:51%;right:3.5%}
+.hero .hero-message h1{font-size:52px;line-height:1.04;letter-spacing:-.025em}
+.hero .hero-message p{font-size:18px;line-height:1.55;max-width:400px;margin-top:22px}
+.hero-cta-group{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.hero .hero-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-height:52px;padding:14px 18px;border-radius:10px;font-size:15px;line-height:1.3;font-weight:600;border:1px solid transparent;transition:background-color 300ms cubic-bezier(.22,1,.36,1)}
+.hero .hero-cta-primary{background:var(--accent);color:var(--ink)}
+.hero .hero-cta-secondary{background:transparent;border-color:var(--ink);color:var(--ink)}
+.hero .hero-cta span{font-size:19px;font-weight:400;transition:transform 300ms cubic-bezier(.22,1,.36,1)}
+.hero .hero-cta-primary:hover,.masthead .nav-cta:hover{background:#e55d25}
+.hero .hero-cta-secondary:hover{background:rgb(32 38 34 / .06)}
+.hero .hero-cta:hover span{transform:translateX(3px)}
+@media(min-width:801px){
+ .masthead{height:116px;padding:18px 32px;border-radius:32px}
+ .masthead .navbar{gap:32px}
+}
+@media(min-width:701px) and (max-width:1100px){
+ .hero .hero-message h1{font-size:clamp(30px,4vw,44px)}
+ .hero .hero-message p{font-size:16px;margin-top:18px}
+ .hero-cta-group{gap:10px;margin-top:20px}
+ .hero .hero-cta{font-size:13px;padding:12px 14px;gap:12px;min-height:48px}
+}
+@media(max-width:800px){
+ .masthead .navbar{left:0;right:0;border-radius:0 0 24px 24px;padding:12px 22px 22px}
+ .masthead .navbar a{margin-top:6px}
+ .masthead .navbar .nav-cta{justify-content:space-between}
+}
+@media(max-width:700px){
+ .masthead{margin:12px 16px;padding:12px 16px;border-radius:18px}
+ .hero .hero-message{position:static;margin:26px 0 0}
+ .hero .hero-message h1{font-size:clamp(28px,7vw,42px);line-height:1.08}
+ .hero .hero-message p{font-size:16px;line-height:1.6}
+ .hero-cta-group{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:24px;max-width:380px}
+ .hero .hero-cta{font-size:15px;min-height:52px}
+}
+/* Navbar belongs to the photograph composition, rather than a header row. */
+.hero.feature{position:relative;width:100%;max-width:none;margin:0;padding:0 0 36px;background:#fff}
+.hero .photo{width:min(calc(100% - 48px),1056px);margin-inline:auto}
+.hero .masthead{position:absolute;top:24px;left:50%;right:auto;transform:translateX(-50%);z-index:5;width:calc(100% - 120px);max-width:1000px;height:80px;min-height:0;margin:0;padding:12px 24px;border-radius:32px;background:#fff;box-shadow:0 4px 20px rgb(32 38 34 / .035)}
+.hero .masthead .wordmark img{width:112px;height:56px;object-fit:contain}
+.hero .masthead .navbar{gap:34px}
+.hero .masthead .navbar a{font-size:14px;font-weight:500}
+.hero .masthead .nav-cta{min-height:48px;padding-inline:24px;border-radius:16px;gap:24px}
+.hero .hero-message{top:130px}
+@media(max-width:1100px) and (min-width:701px){
+ .hero .masthead{width:calc(100% - 80px);padding-inline:22px}
+ .hero .hero-message{top:126px}
+}
+@media(max-width:800px){
+ .hero .masthead{top:14px;width:calc(100% - 72px);height:72px;padding:10px 18px;border-radius:22px}
+ .hero .masthead .wordmark img{width:104px;height:52px}
+ .hero .masthead .navbar{top:100%;left:0;right:0;border-radius:0 0 22px 22px;padding:12px 18px 20px}
+ .hero .masthead .menu-toggle{border:0;padding:0 8px}
+}
+@media(max-width:700px){
+ .hero.feature{padding-bottom:32px}
+ .hero .photo{width:calc(100% - 32px)}
+ .hero .masthead{width:calc(100% - 48px);top:12px;padding-inline:14px;border-radius:20px}
+ .hero .hero-message{position:static;margin-top:24px}
+}
+/* Keep the outlined action legible where the sky meets the landscape. */
+.hero .hero-cta-secondary{background:#f8f8f6}
+.hero .hero-cta-secondary:hover{background:#eceee9}
+/* User-requested glass navigation surface. */
+.hero .masthead{background:rgba(255,255,255,.68);backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);border:1px solid rgba(255,255,255,.55);box-shadow:0 4px 20px rgba(32,38,34,.06)}
+.hero .masthead .navbar{background:transparent}
+@media(max-width:800px){.hero .masthead .navbar{background:rgba(255,255,255,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}}
+@supports not (backdrop-filter:blur(1px)){.hero .masthead{background:rgba(255,255,255,.94)}}
+/* Full-bleed photographic version; the video version uses its own overrides. */
+.hero.feature{padding:0;background:#202622}
+.hero .photo{width:100%;height:clamp(620px,85svh,900px);margin:0}
+.hero .photo-media{position:absolute;inset:0;width:100%;height:100%;min-height:0;max-height:none;aspect-ratio:auto}
+.hero .masthead{max-width:1320px}
+.hero .hero-message{top:clamp(150px,20svh,220px);left:51%;right:var(--gutter);z-index:2}
+.hero .hero-message h1{font-size:clamp(44px,3.7vw,64px)}
+@media(min-width:701px) and (max-width:1100px){
+ .hero .hero-message{top:145px;left:49%;right:28px}
+ .hero .hero-message h1{font-size:clamp(30px,4vw,44px)}
+}
+@media(max-width:700px){
+ .hero .photo{height:clamp(660px,92svh,820px)}
+ .hero .photo::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.28);pointer-events:none;z-index:1}
+ .hero .hero-message{position:absolute;top:140px;left:24px;right:24px;margin:0;max-width:440px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+ .hero .hero-message h1{font-size:clamp(28px,7.4vw,42px)}
+ .hero .hero-message p{color:#fff;font-size:16px}
+ .hero .hero-cta-group{text-shadow:none;max-width:340px}
+ .hero .photo-media img{object-position:30% center}
+}
