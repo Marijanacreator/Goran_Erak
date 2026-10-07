@@ -19,9 +19,10 @@ Local sample photographs are from Unsplash (not photographs of the future compan
 Replace these reference photographs with approved company photography before launch.
 
 ## Video Hero comparison
-- `index.html`: preserved photograph version.
-- `index-video.html`: separate uploaded-video version, sharing the same sections below Hero.
+- `index-photo.html`: preserved photograph version.
+- `index.html` and `index-video.html`: video version, also used by the project root homepage.
 - Run `node server-video.cjs` from the project root for preview on port 4175 (MP4 MIME support).
 - Browser-ready H.264 video: `assets/hero-video-v2.mp4`, with fast-start metadata and no audio. Only the current web video and its poster are retained in the assets folder.
 - Muted loop playback, pause/resume control, and static first-frame poster for reduced motion.
+
 

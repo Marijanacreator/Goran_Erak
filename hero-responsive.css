@@ -11,3 +11,19 @@
  .hero .hero-message h1{font-size:clamp(28px,7.4vw,42px)}
  .hero .hero-message p{font-size:16px}
 }
+/* Center the label and arrow together, including full-width mobile CTAs. */
+.hero .hero-cta{justify-content:center;text-align:center}
+.hero .masthead .navbar .nav-cta{justify-content:center;text-align:center}
+/* Compact mobile composition, with one consistent rhythm. */
+@media(max-width:700px){
+ .hero .photo{height:clamp(600px,86svh,720px)}
+ .hero .masthead{height:64px;top:12px;width:calc(100% - 32px);padding:6px 16px;border-radius:18px}
+ .hero .masthead .wordmark img{width:96px;height:48px}
+ .hero .masthead .menu-toggle{font-size:13px;gap:10px}
+ .hero .hero-message{left:24px;right:24px;top:53%;max-width:440px}
+ .hero .hero-message h1{font-size:clamp(27px,7vw,34px);line-height:1.12;letter-spacing:-.025em}
+ .hero .hero-message p{font-size:14px;line-height:1.6;margin-top:18px;max-width:360px}
+ .hero .hero-cta-group{gap:10px;margin-top:22px;max-width:none}
+ .hero .hero-cta{min-height:48px;padding:12px 16px;font-size:14px;justify-content:center;text-align:center;gap:14px;border-radius:10px}
+ .hero .hero-cta span{font-size:18px}
+}
